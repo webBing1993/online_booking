@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+    <title>网约房系统住客端</title>
+    <!--<script src="static/js/vconsole.min.js"></script>-->
+    <style>
+      body {
+        font-family: '微软雅黑', SourceHanSansCN,'黑体', "PingFang SC",'Avenir', Helvetica, Arial, sans-serif;
+      }
+      .mint-toast {
+        height: auto !important;
+        border-radius: 6px !important;
+        width: auto !important;
+        max-width: 94vw !important;
+      }
+      .mint-toast .mint-toast-text {
+        font-size: 28px !important;
+      }
+      .mobileSelect .content .btnBar {
+        font-size: 30px !important;
+        height: 90px !important;
+        line-height: 90px !important;
+      }
+      .mobileSelect .content .btnBar .cancel, .mobileSelect .content .btnBar .ensure {
+        width: 110px !important;
+        height: 90px !important;
+      }
+      .mobileSelect .content .btnBar .title {
+        font-size: 30px !important;
+      }
+      .mobileSelect .content .panel .wheels {
+        height: 400px !important;
+      }
+      .mobileSelect .content .panel .selectLine {
+        height: 80px !important;
+        top: 160px !important;
+      }
+      .mobileSelect .content .panel .shadowMask {
+        height: 400px !important;
+      }
+      .mobileSelect .content .panel .wheel {
+        height: 400px !important;
+      }
+      .mobileSelect .content .panel .wheel .selectContainer li {
+        font-size: 30px !important;
+        height: 80px !important;
+        line-height: 80px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+  <script>
+    let windowUrl = null;
+    console.log( window.location.href);
+    if (window.location.href.indexOf('cn') != -1) {
+      windowUrl = window.location.href.split('.cn')[1].split('homestay-tenant')[0];
+    }else {
+      windowUrl = '/q/master/';
+    }
+    sessionStorage.setItem('windowUrl', windowUrl);
+  </script>
+  <style>
+
+    body::-webkit-scrollbar {display: none;}
+    * { touch-acion : none }
+    .mint-toast {
+      opacity: 0.69;
+      background: #000000;
+      border-radius: 28px;
+      width: 500px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mint-toast-text {
+      font-size: 28px !important;
+      color: #fff;
+    }
+    .el-pagination {
+      padding: 30px 0;
+      position: fixed;
+      width: calc(100vw - 480px);
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      background-color: #DEE7F8;
+    }
+    .el-pager li {
+      background: rgba(0, 0, 0, .3);
+      color: #fff;
+      margin: 0 10px;
+      font-size: 20px;
+      height: 44px;
+      line-height: 44px;
+      min-width: 44px;
+      font-family: '黑体';
+    }
+    .el-pagination__total {
+      font-size: 20px !important;
+      line-height: 44px !important;
+      height: 44px !important;
+    }
+    .el-pager li.active {
+      background-color: #1AAD19;
+      color: #fff;
+    }
+    .el-pagination button {
+      height: 44px;
+    }
+    .el-pagination .btn-next .el-icon, .el-pagination .btn-prev .el-icon {
+      font-size: 20px;
+    }
+    .el-pagination .btn-prev .el-icon {
+      font-size: 20px;
+    }
+    .ivu-icon-ios-close-circle {
+      display: none;
+    }
+    .ivu-date-picker {
+      width: 480px;
+      height: 72px;
+    }
+    .ivu-input {
+      height: 72px;
+      border: 1px solid #979797;
+      color: #303133;
+      font-size: 30px;
+      padding-left: 30px;
+    }
+    .ivu-input-suffix {
+      display: none;
+    }
+    .ivu-input-suffix i {
+      font-size: 32px;
+      line-height: 72px;
+    }
+    .ivu-picker-panel-icon-btn i {
+      font-size: 32px;
+    }
+    .ivu-date-picker-cells span {
+      width: 56px;
+      height: 56px;
+      line-height: 56px;
+      text-align: center;
+      margin: 5px 2px 2px 2px;
+    }
+    .ivu-date-picker-cells {
+      width: 420px;
+      margin: 28px;
+    }
+    .ivu-picker-panel-icon-btn {
+      width: 74px;
+      height: 48px;
+    }
+    .ivu-date-picker-header {
+      height: 48px;
+      line-height: 48px;
+    }
+    .ivu-btn-small {
+      font-size: 32px;
+    }
+    .ivu-picker-panel-content .ivu-picker-panel-content .ivu-time-picker-cells-list {
+      width: 239px;
+      max-height: 546px;
+    }
+    .ivu-picker-panel-content .ivu-picker-panel-content .ivu-time-picker-cells-list ul li {
+      padding: 0;
+      text-align: center;
+    }
+    .ivu-btn-default {
+      display: none;
+    }
+    .el-message-box__message p {
+      font-size: 20px;
+    }
+    .ivu-icon-ios-calendar-outline:before {
+      display: none;
+    }
+
+  </style>
+
+  <script>
+
+    // 小票二维码扫码
+    function getSweepingSettlement(orderId, deviceId, timeVal) {
+      console.log('B屏orderId', orderId);
+      getSweepingSettlementOrderId(orderId, deviceId, timeVal);
+    }
+
+    // 检查A屏是否有正在办理的订单
+    function ShowOrderInfo(isTrue) {
+      console.log('isTrue', isTrue);
+      showOrderInfo(isTrue);
+    }
+
+    // 检查A屏是否启动
+    function startUpDevice(value) {
+      startUpDevice(value);
+    }
+
+    function giveDeviceId(val) {
+      console.log('giveDeviceId', val);
+      sessionStorage.setItem('deviceId', val);
+    }
+
+    // 判断当前在A屏还是B屏
+    function getAppLocation(val) {
+      sessionStorage.setItem('getAppLocation', val);
+    }
+
+  </script>
+
+</html>
