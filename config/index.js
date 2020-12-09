@@ -13,18 +13,26 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/homestay-tenant': {
-        target: 'http://qa.fortrun.cn:9051',
+        target: 'https://wqt.fortrun.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/homestay-tenant': ''
         }
       },
-      '/': {
-        target: 'https://wqt.fortrun.cn',
-        // target:'http://qa.fortrun.cn:9051',
+      '/baiduApi': {
+        target: 'https://aip.baidubce.com', //访问地址
         changeOrigin: true,
-        pathRewrite: {}
-      }
+        secure: false, //只有代理https 地址需要次选项
+        pathRewrite: {
+          '^/baiduApi': ''
+        }
+      },
+      // '/': {
+      //   target: 'https://wqt.fortrun.cn',
+      //   // target:'http://qa.fortrun.cn:9051',
+      //   changeOrigin: true,
+      //   pathRewrite: {}
+      // }
     },
 
     // Various Dev Server settings

@@ -11,37 +11,20 @@ const router = new Router({
       component: resolve => require(['../components/blockPage/index'],resolve),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: resolve => require(['../components/login/index.vue'],resolve),
+      path: '/homeIndex',
+      name: 'homeIndex',
+      component: resolve => require(['../components/homeIndex/index.vue'], resolve),
       meta: {
-        title: '登录'
-      }
+        title: '入住登记'
+      },
     },
     {
-      path: '/index',
-      name: 'index',
-      component: resolve => require(['../components/index/index.vue'],resolve),
+      path: '/homeHome',
+      name: 'homeHome',
+      component: resolve => require(['../components/homeIndex/home.vue'], resolve),
       meta: {
-        title: '网约房系统住客端'
+        title: '入住登记'
       },
-      children: [
-        {
-          path: '/homeIndex',
-          name: 'homeIndex',
-          component: resolve => require(['../components/homeIndex/index.vue'],resolve),
-        },
-        {
-          path: '/me',
-          name: 'me',
-          component: resolve => require(['../components/me/index.vue'],resolve),
-        },
-        {
-          path: '/checkInGuest',
-          name: 'checkInGuest',
-          component: resolve => require(['../components/checkInGuest/index.vue'],resolve),
-        }
-      ],
     }
   ]
 });

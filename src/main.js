@@ -107,23 +107,13 @@ Axios.interceptors.response.use(response => {
         // router.replace('/wuwangluo');
         break;
       case 502:
-        // Vue.prototype.$toast({
-        //   message: "服务端报错，请稍后再试",
-        //   iconClass: 'icon ',
-        // });
+
         break;
       default:
-        // Vue.prototype.$toast({
-        //   message: "当前登录失效",
-        //   iconClass: 'icon ',
-        // });
-        // // window.location.href = url;
-        // jsObj.LogOut();
     }
     // 返回接口返回的错误信息
     return Promise.reject(error.response.data);
   }else {
-    // router.replace('/wuwangluo');
   }
 });
 

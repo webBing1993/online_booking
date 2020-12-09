@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<wxlogin :appid="appId" scope="'snsapi_login'" theme="'black'" state="STATE" :redirect_uri='recirect_uri'></wxlogin>-->
+
   </div>
 </template>
 <script>
@@ -14,8 +14,6 @@
     },
     data () {
       return {
-        appId: null,
-        recirect_uri: ''
       }
     },
     methods: {
@@ -26,17 +24,8 @@
     },
 
     mounted () {
-      // 需要判断是否登录过了
-      this.replaceto('/index');
-//      let tokenCode = localStorage.getItem('tokenCode') ? localStorage.getItem('tokenCode') : '';
-//      if (tokenCode != '') {
-//          this.replaceto('/index');
-//      }else {
-//          this.replaceto('/login');
-//      }
-//      this.appId = this.$store.state.store.state.appid;
-
-      console.log('进来了');
+      // 这里接收判断小程序那边跳转过来的参数判断
+      this.replaceto('/homeIndex');
     }
   }
 </script>

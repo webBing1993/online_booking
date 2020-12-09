@@ -35,7 +35,6 @@ const actions = {
       }else {
         ctx.dispatch ('showToast', {text: response.body.msg || response.data.errmsg, time: 2000});
         param.onFail && param.onFail(response)
-        param.onFail && param.onFail(response)
       }
       ctx.dispatch ('showLoading', false);
     }).catch(
@@ -56,13 +55,13 @@ const actions = {
   },
 
   resource: (ctx, param) => {
-    ctx.dispatch ('showLoading', true);
+    // ctx.dispatch ('showLoading', true);
     axios({
       url: httpTool.httpUrlEnv() + sessionStorage.getItem('windowUrl') + 'homestay-tenant' + param.url,
       method: param.method || 'GET',
       baseURL: '/',
       headers: param.headers || {
-        'X-auth-token': localStorage.getItem('tokenCode'),
+        'X-auth-token': sessionStorage.getItem('tokenId') != 'null' ? sessionStorage.getItem('tokenId') : ' 152031ea-2453-420d-a105-a2e34a73c7db',
         'content-Type': 'application/json'
       },
       params: qs.stringify(param.params) || null,
@@ -76,20 +75,48 @@ const actions = {
       if (response.data.code == 0 || response.data.errcode == 0) {
         param.onSuccess && param.onSuccess(response)
       }else {
-        ctx.dispatch ('showToast', {text: response.body.msg || response.data.errmsg, time: 2000});
+        // ctx.dispatch ('showToast', {text: response.body.msg || response.data.errmsg, time: 2000});
         param.onFail && param.onFail(response)
       }
-      ctx.dispatch ('showLoading', false);
+      // ctx.dispatch ('showLoading', false);
     }).catch(
       error => {
-        ctx.dispatch ('showLoading', false);
+        // ctx.dispatch ('showLoading', false);
         if(error){
           console.log("error",error);
-          if (error.response) {
+          param.onError && param.onError(error);
+        }
 
-          }else {
-
-          }
+      }
+    )
+  },
+  resource_: (ctx, param) => {
+    let url = '';
+    if (sessionStorage.getItem('windowUrl') == '/q/master/') {
+      url = httpTool.httpUrlEnv() + 'baiduApi' + param.url;
+    }else {
+      url = 'https://aip.baidubce.com'+param.url;
+    }
+    axios({
+      url: url,
+      method: param.method || 'GET',
+      baseURL: '/',
+      data: param.body,
+      timeout: param.timeout || 180000,
+      credentials: false,
+      emulateHTTP: false,
+      emulateJSON: param.emulateJSON ? param.emulateJSON : true,
+    }).then(response => {
+      console.log("response",response);
+      if (response.error_code == 0) {
+        param.onSuccess && param.onSuccess(response)
+      }else {
+        param.onFail && param.onFail(response)
+      }
+    }).catch(
+      error => {
+        if(error){
+          console.log("error",error);
           param.onError && param.onError(error);
         }
 
@@ -97,70 +124,11 @@ const actions = {
     )
   },
 
-  // 获取验证码
-  getCode (ctx,param){
-    ctx.dispatch('request',{
-      url: '/auth/sms',
-      method: 'POST',
-      body: param.data,
-      headers: {
-        'content-Type': 'application/json'
-      },
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: body => {
-        param.onfail ? param.onfail(body) : null
-      },
-      onError:(body, headers) => {
-        param.onerror ? param.onerror(body, headers) : null
-      },
-    })
-  },
-
-  // 登录
-  loginEntry (ctx,param){
-    ctx.dispatch('request',{
-      url: '/auth/sms/login',
-      method: 'POST',
-      body: param.data,
-      headers: {
-        'content-Type': 'application/json'
-      },
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: body => {
-        param.onfail ? param.onfail(body) : null
-      },
-      onError:(body, headers) => {
-        param.onerror ? param.onerror(body, headers) : null
-      },
-    })
-  },
-
-  // 首页权限
-  getAllConfig(ctx, param) {
+  // 获取百度token
+  baiduToken (ctx, param) {
     ctx.dispatch('resource', {
-      url: '/permission/getByUserId',
-      method: 'GET',
-      onSuccess: (body, headers) => {
-        param.onsuccess ? param.onsuccess(body, headers) : null
-      },
-      onFail: body => {
-        param.onfail ? param.onfail(body) : null
-      },
-      onError:(body, headers) => {
-        param.onerror ? param.onerror(body, headers) : null
-      },
-    })
-  },
-
-  //查看是否对接PMS
-  getPmsFlag(ctx, param) {
-    ctx.dispatch('resource', {
-      url: '/ecard/orders/get/pmsFlag',
-      method: 'GET',
+      url: '/order/'+param.roomOrderId+'/guest/check/verifyToken',
+      method: 'PUT',
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       },
@@ -173,10 +141,10 @@ const actions = {
     })
   },
 
-  // 获取预订单列表
-  getQueryByPage (ctx, param) {
-    ctx.dispatch('resource', {
-      url: '/ecard/orders/queryByPage',
+  // 查询接口
+  getResult(ctx, param) {
+    ctx.dispatch('resource_', {
+      url: '/rpc/2.0/brain/solution/faceprint/result/detail',
       method: 'POST',
       body: param.data,
       onSuccess: (body, headers) => {
