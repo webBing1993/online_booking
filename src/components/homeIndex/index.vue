@@ -301,24 +301,25 @@
         Indicator.close();
         sessionStorage.setItem('ownerId_', sessionStorage.getItem('ownerId'));
         sessionStorage.removeItem('ownerId');
-        let url = 'http://qa.fortrun.cn/onlinebooking/';
+        let url = 'https://qa.fortrun.cn/onlinebooking/';
         window.location.href = "https://brain.baidu.com/face/print/?token="+this.verifyToken+"&successUrl="+url+"&failedUrl="+url
       },
 
     },
 
     mounted () {
-      Indicator.open({
-        text: '',
-        spinnerType: 'fading-circle'
-      });
-      console.log("sessionStorage.getItem('ownerId')", sessionStorage.getItem('ownerId'));
-      if (sessionStorage.getItem('ownerId') && sessionStorage.getItem('ownerId') != 'null') {
-        this.getBaiduToken();
-      }else {
-        Indicator.close();
-        this.replaceto('/homeHome');
-      }
+//      Indicator.open({
+//        text: '',
+//        spinnerType: 'fading-circle'
+//      });
+//      console.log("sessionStorage.getItem('ownerId')", sessionStorage.getItem('ownerId'));
+//      if (sessionStorage.getItem('ownerId') && sessionStorage.getItem('ownerId') != 'null') {
+//        this.getBaiduToken();
+//      }else {
+//        Indicator.close();
+//        this.replaceto('/homeHome');
+//      }
+      this.replaceto('/homeHome');
     }
   }
 </script>
